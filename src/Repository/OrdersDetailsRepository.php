@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\OrdersDetails;
+use App\Entity\Products;
+use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,7 +20,6 @@ class OrdersDetailsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, OrdersDetails::class);
     }
-
     // /**
     //  * @return OrdersDetails[] Returns an array of OrdersDetails objects
     //  */

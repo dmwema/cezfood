@@ -51,9 +51,11 @@ class CartController extends AbstractController
         }
 
         $session->set('panier', $panier);
-        
+        $this->addFlash('success', 'Article ajouté au panier avec succès');
         //On redirige vers la page du panier
-        return $this->redirectToRoute('cart_index');
+        return $this->redirectToRoute('categories_list', [
+            'slug' => $product->getCategories()->getSlug()
+        ]);
     }
 
     #[Route('/remove/{id}', name: 'remove')]

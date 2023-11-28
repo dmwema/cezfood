@@ -3,21 +3,22 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <section class="container">
+    <section class="container mt-5">
         <div class="row">
             <div class="col">
-                <h1>Inscription</h1>
+                <h3>Inscription</h3>
+                <hr>
 
                 {{ form_start(registrationForm) }}
                     <fieldset class="mb-3">
-                        <legend>Mon identité</legend>
+                        <small>Mon identité</small>
                         {{ form_row(registrationForm.lastname) }}
                         {{ form_row(registrationForm.firstname) }}
                         {{ form_row(registrationForm.email) }}
                     </fieldset>
 
                     <fieldset class="mb-3">
-                        <legend>Mes coordonnées</legend>
+                        <small>Mes coordonnées</small>
                         {{ form_row(registrationForm.address) }}
                         {{ form_row(registrationForm.zipcode) }}
                         {{ form_row(registrationForm.city) }}

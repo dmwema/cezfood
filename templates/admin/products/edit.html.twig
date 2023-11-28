@@ -3,10 +3,11 @@
 {% block title %}Administration des produits{% endblock %}
 
 {% block body %}
-    <main class="container">
+    <main class="container my-5">
         <section class="row">
             <div class="col-12">
-                <h1>Modifier un produit</h1>
+                <h3 class="mb-2">Modifier le produit</h3>
+                <hr>
                 {% include "admin/products/_form.html.twig" with {'button_label': 'Modifier'} %}
             </div>
         </section>

@@ -24,15 +24,10 @@ class Products
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Le nom du produit ne peut pas être vide')]
     #[Assert\Length(
-        min: 8,
         max: 200,
-        minMessage: 'Le titre doit faire au moins {{ limit }} caractères',
-        maxMessage: 'Le titre ne doit pas faire plus de {{ limit }} caractères'
+        maxMessage: 'Le nom ne doit pas faire plus de {{ limit }} caractères'
     )]
     private $name;
-
-    #[ORM\Column(type: 'text')]
-    private $description;
 
     #[ORM\Column(type: 'integer')]
     private $price;
@@ -45,15 +40,11 @@ class Products
     #[ORM\JoinColumn(nullable: false)]
     private $categories;
 
-    #[ORM\OneToMany(mappedBy: 'products', targetEntity: Images::class, orphanRemoval: true, cascade: ['persist'])]
-    private $images;
-
     #[ORM\OneToMany(mappedBy: 'products', targetEntity: OrdersDetails::class)]
     private $ordersDetails;
 
     public function __construct()
     {
-        $this->images = new ArrayCollection();
         $this->ordersDetails = new ArrayCollection();
         $this->created_at = new \DateTimeImmutable();
     }
@@ -71,18 +62,6 @@ class Products
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }
@@ -119,36 +98,6 @@ class Products
     public function setCategories(?Categories $categories): self
     {
         $this->categories = $categories;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Images[]
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(Images $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->setProducts($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Images $image): self
-    {
-        if ($this->images->removeElement($image)) {
-            // set the owning side to null (unless already changed)
-            if ($image->getProducts() === $this) {
-                $image->setProducts(null);
-            }
-        }
 
         return $this;
     }

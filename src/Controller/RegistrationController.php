@@ -55,9 +55,9 @@ class RegistrationController extends AbstractController
 
             // On envoie un mail
             $mail->send(
-                'no-reply@monsite.net',
+                'noreply@quickdep.ca',
                 $user->getEmail(),
-                'Activation de votre compte sur le site e-commerce',
+                'Activation de votre compte sur PatStore',
                 'register',
                 compact('user', 'token')
             );
@@ -130,9 +130,9 @@ class RegistrationController extends AbstractController
 
         // On envoie un mail
         $mail->send(
-            'no-reply@monsite.net',
+            'noreply@quickdep.ca',
             $user->getEmail(),
-            'Activation de votre compte sur le site e-commerce',
+            'Activation de votre compte sur PatStore',
             'register',
             compact('user', 'token')
         );

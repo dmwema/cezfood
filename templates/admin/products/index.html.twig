@@ -3,16 +3,15 @@
 {% block title %}Liste des produits{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="container mt-5">
         <div class="row">
             {% include "_partials/_adminnav.html.twig" %}
-            <main class="col-9 border border-light bg-white p-2">
-                <h1>Liste des produits</h1>
+            <main class="col-9 border border-light bg-white p-3">
+                <h3 class="mb-2">Liste des produits</h3>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Photo</th>
                             <th>Nom</th>
                             <th>Prix</th>
                             <th>Stock</th>
@@ -24,7 +23,6 @@
                         {% for produit in produits %}
                             <tr>
                                 <td>{{ produit.id }}</td>
-                                <td><img src="{{ asset('assets/uploads/products/mini/300x300-' ~ produit.images[0].name ) }}" alt="{{ produit.name }}" class="img-thumbnail"></td>
                                 <td>{{ produit.name }}</td>
                                 <td>{{ produit.price / 100 }}</td>
                                 <td>{{ produit.stock }}</td>

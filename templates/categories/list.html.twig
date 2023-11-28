@@ -5,26 +5,34 @@
 {% block body %}
     <main class="container">
         <section class="row">
-            <div class="col-12">
-                <h1>Liste des produits de la catégorie {{ category.name }}</h1>
+            <div class="col-12 mt-5">
+                <h2>Nos {{ category.name }}</h2>
+                <hr>
             </div>
-            {% for product in products.data %}
-                <div class="col-3 mb-3">
-                    <article class="card h-100">
-                        <img src="{{ asset('assets/uploads/products/mini/300x300-' ~ product.images[0].name ) }}" class="card-img-top" alt="{{ product.name }}">
-                        <div class="card-body">
-                            <h2 class="card-title">{{ product.name }}</h2>
-                            <p class="card-text">{{ product.description }}</p>
-                            <a href="{{ path('products_details', {"slug": product.slug }) }}" class="btn btn-primary">Voir les détails</a>
-                        </div>
-                    </article>
-                </div>
-            {% endfor %}
-            {% set path = 'categories_list' %}
-            {% set slug = category.slug %}
-            {% set pages = products.pages %}
-            {% set currentPage = products.page %}
-            {% include "_partials/_pagination.html.twig" %}
+            {% if products|length > 0 %}
+                {% for product in products.data %}
+                    <div class="col-3 mb-3">
+                        <article class="card">
+                            <div class="d-flex p-2 align-items-center justify-content-between">
+                                <h5 class="mb-0">{{ product.name }}</h5>
+                                <a href="{{ path('cart_add', {id: product.id}) }}" class="btn btn-success">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+                                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                    </svg>
+                                    <small style="margin-left: 5px">Ajouter</small>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+                {% set path = 'categories_list' %}
+                {% set slug = category.slug %}
+                {% set pages = products.pages %}
+                {% set currentPage = products.page %}
+                {% include "_partials/_pagination.html.twig" %}
+            {% else %}
+                <p class="small">Aucun produit trouvé<p>
+            {% endif %}
         </section>
     </main>
 {% endblock %}

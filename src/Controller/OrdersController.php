@@ -56,7 +56,7 @@ class OrdersController extends AbstractController
 
         $session->remove('panier');
 
-        $this->addFlash('message', 'Commande créée avec succès');
+        $this->addFlash('success', 'Commande créée avec succès');
         return $this->redirectToRoute('main');
     }
 }

@@ -3,9 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Products;
+use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Client\Curl\User;
 
 /**
  * @method Products|null find($id, $lockMode = null, $lockVersion = null)
@@ -54,23 +56,52 @@ class ProductsRepository extends ServiceEntityRepository
         return $result;
     }
 
-    // /**
-    //  * @return Products[] Returns an array of Products objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    /**
+     * @return Products[] Returns an array of Products objects
+     */
+    public function findSuggestions(Users $user): array
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
+            ->leftJoin('p.ordersDetails', 'od')
+            ->leftJoin('od.orders', 'o')
+            ->leftJoin('o.users', 'u')
+            ->andWhere('u.city = :val')
+            ->andWhere('u.id != :uid')
+            ->setParameter('val', $user->getCity())
+            ->setParameter('uid', $user->getId())
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return Products[] Returns an array of Products objects
+     */
+    public function findSimilars(Products $products): array
+    {
+        $productsData = $this->createQueryBuilder('p')
+            ->leftJoin('p.categories', 'c')
+            ->where('c.id = :cat')
+            ->orWhere('LOWER(p.mark) = LOWER(:mark)')
+            ->setParameter('cat', $products->getCategories()->getId())
+            ->setParameter('mark', $products->getMark())
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
+        $return = [];
+        foreach ($productsData as $similar) {
+            if (
+                ($similar->getCategories() === $products->getCategories() && $similar->getId() !== $products->getId() && $similar->getPrice() > $products->getPrice())
+                || ($similar->getCategories() !== $products->getCategories() && $similar->getMark() === $products->getMark())
+            ) {
+                $return[] = $similar;
+            }
+        }
+        return $return;
     }
-    */
-
     /*
     public function findOneBySomeField($value): ?Products
     {
